@@ -13,9 +13,8 @@ class Users(models.Model):
     is_active=models.BooleanField(default=True)
     is_staff=models.BooleanField(default=False)
 
-
 #Create candidate model.
-class Candidate(models.model):
+class Candidate(models.Model):
     fullname=models.CharField(max_length=20)
     email_id=models.EmailField(max_length=20)
     phone_no=models.CharField(max_length=12)
@@ -23,7 +22,7 @@ class Candidate(models.model):
     photo=models.ImageField(upload_to="candidates")
 
 # Create voting model.
-class Vote(models.model):
+class Vote(models.Model):
     user_name=models.ForeignKey(Users,on_delete=models.CASCADE)
     candidate_name=models.ForeignKey(Candidate,on_delete=models.CASCADE)
     vote_no=models.PositiveIntegerField()
