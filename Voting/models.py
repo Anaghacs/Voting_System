@@ -13,6 +13,7 @@ class Users(models.Model):
     is_active=models.BooleanField(default=True)
     is_staff=models.BooleanField(default=False)
 
+
 #Create candidate model.
 class Candidate(models.model):
     fullname=models.CharField(max_length=20)
