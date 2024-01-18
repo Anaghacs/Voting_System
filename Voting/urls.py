@@ -5,5 +5,7 @@ from .import views
 
 urlpatterns = [
     path('', views.index,name="index"),
+    path('admin_home',views.admin_home,name="admin_home")
+    
     
 ]
