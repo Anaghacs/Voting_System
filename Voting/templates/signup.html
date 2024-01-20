@@ -35,13 +35,9 @@ ication/x-javascript"> addEventListener("load", function() { setTimeout(hideURLb
 					<input class="text email" type="email" name="email" placeholder="Email" required="">
 					<input class="text" type="password" name="password1" placeholder="Password" required="">
 					<input class="text w3lpass" type="password" name="password2" placeholder="Confirm Password" required="">
-					<div class="wthree-text">
-						<label class="anim">
-							<input type="checkbox" class="checkbox" required="">
-							<span>I Agree To The Terms & Conditions</span>
-						</label>
-						<div class="clear"> </div>
-					</div>
+					{% for messages in messages %}
+						<p class="msgs">{{messages}}</p>
+					{% endfor %}
 					<input type="submit" value="SIGNUP">
 				</form>
 				<p>Don't have an Account? <a href="/login"> Login Now!</a></p>
