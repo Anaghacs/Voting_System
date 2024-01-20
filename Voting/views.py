@@ -50,6 +50,9 @@ def signup(request):
 
 #Create login page functions.
 def login(request):
+    # if 'username' in request.session:
+    #     return redirect(index)
+    
     if request.method=="POST":
         username=request.POST['username']
         pass1=request.POST['password1']
@@ -71,8 +74,28 @@ def login(request):
             messages.infor(request,"Invalid login credentials")
     return render(request,"login.html")
 
+def signout(request):
+    if 'username' in request.session:
+        request.session.flush()
+    return redirect('index')
 
 
 #Create admin home page functions.
 def admin_home(request):
-    return render(request,'admin_home.html')
+    if 'username' in request.session:
+        return render(request,'admin_home.html')
+    return render(request,"login.html")
+
+#Create admin view user details and approve button
+def view_users(request):
+    user=User.objects.filter(is_staff=False)
+    return render(request,"view_users.html",{'user':user})
+
+
+#Create admin approve login request for the users.
+def approve(request,id):
+    user=User.objects.get(id=id)
+    user.is_staff=True
+    user.save()
+    return redirect("verified_users")
+

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>login</title>
+    <title></title>
 </head>
 {% load static %}
 <link rel="stylesheet" href="{% static 'login.css' %}">
@@ -17,11 +17,10 @@
             <input type="password" name="password1" placeholder="password" required/>
             <button type="submit" value="submit" >Login</button>
 
-            #The for loop condition print the error message in html page
             {% for messages in messages %}
               <p style="color: red;">{{messages}}</p>
             {% endfor %}
-            
+
             <p class="message">Not registered? <a href="/signup">Create an account</a></p>
           </form>
         </div>

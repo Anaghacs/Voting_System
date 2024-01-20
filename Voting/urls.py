@@ -7,5 +7,8 @@ urlpatterns = [
     path('', views.index,name="index"),
     path('signup',views.signup,name="signup"),
     path('login',views.login,name="login"),
-    path('admin_home',views.admin_home,name="admin_home")
+    path('signout',views.signout,name="signout"),
+    path('admin_home',views.admin_home,name="admin_home"),
+    path('view_users',views.view_users,name="view_users"),
+    path('approve/<int:id>/',views.approve,name="approve")
 ]
