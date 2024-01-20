@@ -36,7 +36,7 @@ ication/x-javascript"> addEventListener("load", function() { setTimeout(hideURLb
 					<input class="text" type="password" name="password1" placeholder="Password" required="">
 					<input class="text w3lpass" type="password" name="password2" placeholder="Confirm Password" required="">
 					{% for messages in messages %}
-						<p class="msgs">{{messages}}</p>
+						<p style="color: red;">{{messages}}</p>
 					{% endfor %}
 					<input type="submit" value="SIGNUP">
 				</form>

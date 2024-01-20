@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from .models import Candidate,Vote
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.contrib.auth import authenticate
 
 # Create your views here.
 def index(request):
@@ -29,7 +30,7 @@ def signup(request):
             messages.info(request,"Email address already exist! Please try some other email address.")
             return redirect('signup')
         
-        
+
         #if condition checking username already exist then display the error message.
         if password !=confirm_password:
             messages.info(request,"Password and confirm password didn't match !")
@@ -45,6 +46,31 @@ def signup(request):
             my_user.save()
             return redirect('login')
     return render(request,'signup.html')
+
+
+#Create login page functions.
+def login(request):
+    if request.method=="POST":
+        username=request.POST['username']
+        pass1=request.POST['password1']
+        user=authenticate(username=username,password=pass1)
+
+        if user is not None:
+            request.session['username']=username
+
+            if user.is_superuser:
+                return render(request,'admin_home.html')
+            
+            else:
+                if user.is_staff==True:
+                    return render(request,'user_home.html')
+                else:
+                    messages.info(request,"Your account not approved by the admin! Please wait.")
+        
+        else:
+            messages.infor(request,"Invalid login credentials")
+    return render(request,"login.html")
+
 
 
 #Create admin home page functions.
