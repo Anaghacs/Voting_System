@@ -3,6 +3,7 @@ from .models import Candidate,Vote
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate
+from django.contrib.auth import logout
 
 # Create your views here.
 def index(request):
@@ -75,8 +76,9 @@ def login(request):
     return render(request,"login.html")
 
 def signout(request):
-    if 'username' in request.session:
-        request.session.flush()
+    logout(request)
+    # if 'username' in request.session:
+    #     request.session.flush()
     return redirect('index')
 
 
@@ -99,3 +101,9 @@ def approve(request,id):
     user.save()
     return redirect("verified_users")
 
+def verified_users(request):
+    user=User.objects.filter(is_staff=True,is_superuser=False)
+    return render(request,"verified_users",{'user':user})
+
+def user_home(request):
+    return render(request,"user_home.html")

@@ -10,5 +10,8 @@ urlpatterns = [
     path('signout',views.signout,name="signout"),
     path('admin_home',views.admin_home,name="admin_home"),
     path('view_users',views.view_users,name="view_users"),
-    path('approve/<int:id>/',views.approve,name="approve")
+    path('approve/<int:id>/',views.approve,name="approve"),
+    path('verified_users',views.verified_users,name="verified_users"),
+    path('user_home',views.user_home,name="user_home")
 ]
+
