@@ -103,7 +103,7 @@ def approve(request,id):
 
 def verified_users(request):
     user=User.objects.filter(is_staff=True,is_superuser=False)
-    return render(request,"verified_users",{'user':user})
+    return render(request,"verified_users.html",{'user':user})
 
 def user_home(request):
     return render(request,"user_home.html")

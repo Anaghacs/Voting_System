@@ -28,3 +28,4 @@ class Vote(models.Model):
     candidate_name=models.ForeignKey(Candidate,on_delete=models.CASCADE)
     vote_no=models.PositiveIntegerField()
 
+
