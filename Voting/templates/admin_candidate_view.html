@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+</head>
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'user.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"><body>
+    <div class="container">
+        <h1>Candidate Details</h1>
+        <table id="customers" border="1">
+            <thead>
+                <!-- <th> No</th> -->
+                <th> Full Name</th>
+                <th> Email Address</th>
+                <th> Phone number</th>
+                <th> Bio</th>     
+                <!-- <th>Photo</th>            -->
+                <th colspan="2" id="mid">Action</th>
+            </thead>
+            {% for i in candidates %}
+            <tr>
+                <!-- <td>{{i.id}}</td> -->
+                <td>{{i.fullname}}</td>
+                <td>{{i.email}}</td>
+                <td>{{i.phone}}</td>
+                <td>{{i.bio}}</td>
+                <!-- <td>{{i.photo}}</td> -->
+                <td>
+                    <a href="updates/{{i.id}}"><i class="fas fa-edit"></i></a>                    
+                </td>
+                <td>
+                    <a href="deletes/{{i.id}}"><i class="fa-solid fa-trash"></i></a>
+                </td>       
+            </tr>
+            
+            {% endfor %}
+        </table>
+    </div>
+    </div>  
+    
+</body>
+</html>

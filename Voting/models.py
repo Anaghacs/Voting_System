@@ -17,10 +17,10 @@ from django.contrib.auth.models import User
 #Create candidate model.
 class Candidate(models.Model):
     fullname=models.CharField(max_length=20)
-    email_id=models.EmailField(max_length=20)
-    phone_no=models.CharField(max_length=12)
+    email=models.EmailField(max_length=20)
+    phone=models.CharField(max_length=12)
     bio=models.TextField()
-    photo=models.ImageField(upload_to="candidates")
+    # photo=models.ImageField(upload_to="candidates")
 
 # Create voting model.
 class Vote(models.Model):

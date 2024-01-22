@@ -11,8 +11,9 @@ def index(request):
 
 #The user registration or signup form for the user.
 def signup(request):
+
     #The form submition field daata fetch
-    if request.method=="POST":
+    if request.method == "POST":
         username=request.POST['username']
         first_name=request.POST['first_name']
         last_name=request.POST['last_name']
@@ -59,11 +60,13 @@ def login(request):
         pass1=request.POST['password1']
         user=authenticate(username=username,password=pass1)
 
+        # if user := authenticate(username=username,password=password):
         if user is not None:
             request.session['username']=username
 
             if user.is_superuser:
-                return render(request,'admin_home.html')
+                # print("--------------------------------------------")
+                return redirect(admin_home)
             
             else:
                 if user.is_staff==True:
@@ -72,7 +75,7 @@ def login(request):
                     messages.info(request,"Your account not approved by the admin! Please wait.")
         
         else:
-            messages.infor(request,"Invalid login credentials")
+            messages.info(request,"Invalid username or password ! Please check username or password")
     return render(request,"login.html")
 
 def signout(request):
@@ -104,6 +107,30 @@ def approve(request,id):
 def verified_users(request):
     user=User.objects.filter(is_staff=True,is_superuser=False)
     return render(request,"verified_users.html",{'user':user})
+
+def candidate_form(request):
+
+    # print("------in function--------------------------")
+    if request.method=="POST":
+        # print("in function*****************************************")
+        fullname=request.POST['fullname']
+        # print("fullname",fullname)
+        email=request.POST['email']
+        # print("email",email)
+        phone=request.POST['phone']
+        bio=request.POST['bio']
+        # photo=request.POST['photo']
+        candidates=Candidate.objects.create(fullname=fullname,email=email,phone=phone,bio=bio)
+        candidates.save()   
+        # print(candidates.values())   
+    return render(request,'candidate_form.html')
+
+
+
+def admin_candidate_view(request):
+    candidates=Candidate.objects.all()
+    return render(request,'admin_candidate_view.html',{'candidates':candidates})
+
 
 def user_home(request):
     return render(request,"user_home.html")
