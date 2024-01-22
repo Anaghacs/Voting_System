@@ -70,7 +70,7 @@ def login(request):
             
             else:
                 if user.is_staff==True:
-                    return render(request,'user_home.html')
+                    return redirect(user_home)
                 else:
                     messages.info(request,"Your account not approved by the admin! Please wait.")
         
@@ -110,27 +110,41 @@ def verified_users(request):
 
 def candidate_form(request):
 
-    # print("------in function--------------------------")
     if request.method=="POST":
-        # print("in function*****************************************")
         fullname=request.POST['fullname']
-        # print("fullname",fullname)
         email=request.POST['email']
-        # print("email",email)
         phone=request.POST['phone']
         bio=request.POST['bio']
-        # photo=request.POST['photo']
         candidates=Candidate.objects.create(fullname=fullname,email=email,phone=phone,bio=bio)
         candidates.save()   
-        # print(candidates.values())   
     return render(request,'candidate_form.html')
-
 
 
 def admin_candidate_view(request):
     candidates=Candidate.objects.all()
     return render(request,'admin_candidate_view.html',{'candidates':candidates})
 
+def delete_candidate_invoice(request,id):
+    candidate=Candidate.objects.get(id=id)
+    if request.method == "POST":
+        candidate.delete()
+        return redirect('admin_candidate_view')
+    return render(request,"delete_candidate_invoice.html")
+
+
+# def deletes(request, id):
+# 	candidate = Candidate.objects.get(id=id)
+# 	if request.method == 'POST':
+# 		candidate.delete()
+# 		return redirect('/list_items')
+#     # return render(request,'admin_candidate_view.html)
+
 
 def user_home(request):
     return render(request,"user_home.html")
+
+def user_view_candidate(request):
+    candidates=Candidate.objects.all()
+    return render(request,'user_view_candidate.html',{'candidates':candidates})
+
+# def vote(request):

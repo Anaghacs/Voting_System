@@ -14,6 +14,8 @@ urlpatterns = [
     path('verified_users',views.verified_users,name="verified_users"),
     path('candidate_form',views.candidate_form,name="candidate_form"),
     path('admin_candidate_view',views.admin_candidate_view,name="admin_candidate_view"),
-    path('user_home',views.user_home,name="user_home")
+    path('delete_candidate_invoice/<int:id>/',views.delete_candidate_invoice,name="delete_candidate_invoice"),
+    path('user_home',views.user_home,name="user_home"),
+    path('user_view_candidate',views.user_view_candidate,name="user_view_candidate")
 ]
 

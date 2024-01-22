@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+{% load static %}
+<link rel="stylesheet" href="{% static 'deleteConfirmation.css' %}">
+<body>
+
+    <div class="container">
+        <div class="confirmation-box">
+            <h2>Are you sure you want to delete?</h1><br>
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <div class="buttons">
+                        <input class="btns" type="submit" value="Yes" />
+                        <a href="/admin_candidate_view">Cancel</a>
+                    </div>     
+                 </form>
+        </div>
+    </div>
+
+
+    
+</body>
+</html>
