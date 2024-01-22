@@ -23,9 +23,9 @@ class Candidate(models.Model):
     # photo=models.ImageField(upload_to="candidates")
 
 # Create voting model.
-class Vote(models.Model):
+class Votes(models.Model):
     user_name=models.ForeignKey(User,on_delete=models.CASCADE)
     candidate_name=models.ForeignKey(Candidate,on_delete=models.CASCADE)
-    vote_no=models.PositiveIntegerField()
+    votes=models.PositiveIntegerField(default=0)
 
 

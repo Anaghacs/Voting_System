@@ -1,9 +1,10 @@
-from django.shortcuts import render,redirect
-from .models import Candidate,Vote
+from django.shortcuts import render,redirect,get_object_or_404
+from .models import Candidate,Votes
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.contrib.auth import logout
+
 
 # Create your views here.
 def index(request):
@@ -145,5 +146,18 @@ def user_view_candidate(request):
     candidates=Candidate.objects.all()
     return render(request,'user_view_candidate.html',{'candidates':candidates})
 
-# def vote(request,id,candidate_id):
-#     candidate=get_
+
+# def vote(request,candidate_id):
+#     candidate=get_object_or_404(Candidate,pk=candidate_id)
+#     if Votes.objects.filter(user=request.User,candidate=candidate).exists():
+#         return render(request,'already voted')
+#     vote=Votes(user=request.User,candidate=candidate)
+#     vote.save()
+#     return render(request,'voting_success')
+
+def vote(request,candidate_id):
+    if request.user.is_authenticated:
+        cart=Votes.objects.filter(user=request.user)
+        count=0
+        for i in cart:
+            

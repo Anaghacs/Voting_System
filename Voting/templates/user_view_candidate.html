@@ -31,8 +31,11 @@
                 <td>{{i.bio}}</td>
                 <td>
                     <a href="vote/{{i.id}}">Vote</a>
+                    <!-- <a href="{% url 'vote' i.id %}">Vote</a> -->
+
                 </td>
             </tr>
+            
             
             {% endfor %}
         </table>
