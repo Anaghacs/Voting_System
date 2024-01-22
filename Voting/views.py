@@ -32,10 +32,14 @@ def signup(request):
             messages.info(request,"Email address already exist! Please try some other email address.")
             return redirect('signup')
         
+        #username , firstname ,lastname  validation.
+        if username==first_name==last_name== "" or username==first_name==last_name==" ":
+            messages.info(request,"Username or firstname and last name is not allowed space and blank space and number and numbers and special characters")
+            return redirect('signup')
 
         #if condition checking username already exist then display the error message.
         if password !=confirm_password:
-            messages.info(request,"Password and confirm password didn't match !")
+            messages.info(request,"Please enter same Password and confirm password didn't match !")
             return redirect('signup')
 
         else:
@@ -126,18 +130,12 @@ def admin_candidate_view(request):
 
 def delete_candidate_invoice(request,id):
     candidate=Candidate.objects.get(id=id)
+
+    #Create confirmation message for deletion page. 
     if request.method == "POST":
         candidate.delete()
         return redirect('admin_candidate_view')
     return render(request,"delete_candidate_invoice.html")
-
-
-# def deletes(request, id):
-# 	candidate = Candidate.objects.get(id=id)
-# 	if request.method == 'POST':
-# 		candidate.delete()
-# 		return redirect('/list_items')
-#     # return render(request,'admin_candidate_view.html)
 
 
 def user_home(request):
@@ -147,4 +145,5 @@ def user_view_candidate(request):
     candidates=Candidate.objects.all()
     return render(request,'user_view_candidate.html',{'candidates':candidates})
 
-# def vote(request):
+# def vote(request,id,candidate_id):
+#     candidate=get_
