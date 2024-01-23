@@ -54,9 +54,10 @@ def signup(request):
             return redirect('login')
     return render(request,'signup.html')
 
+from django.contrib.auth import login as auth_login
 
 #Create login page functions.
-def login(request):
+def user_login(request):
     # if 'username' in request.session:
     #     return redirect(index)
     
@@ -65,8 +66,13 @@ def login(request):
         pass1=request.POST['password1']
         user=authenticate(username=username,password=pass1)
 
+        # user = request.user
+        print("======",user)
         # if user := authenticate(username=username,password=password):
         if user is not None:
+            auth_login(request, user)
+
+
             request.session['username']=username
 
             if user.is_superuser:
@@ -138,56 +144,44 @@ def delete_candidate_invoice(request,id):
         return redirect('admin_candidate_view')
     return render(request,"delete_candidate_invoice.html")
 
-# def vote(request,candidate_id):
-#     candidate=get_object_or_404(Candidate,pk=candidate_id)
-#     if Votes.objects.filter(user=request.User,candidate=candidate).exists():
-#         return render(request,'already voted')
-#     vote=Votes(user=request.User,candidate=candidate)
-#     vote.save()
-#     return render(request,'voting_success')
 
 def vote(request,id):
-    user=request.user
-    candidate=Candidate.objects.all()
-    has_voted=Votes.objects.filter(user=user).exists()
-    # print("-------------in function-----------------------------------")
-    # user=User.objects.get(id=id)
-    # print(user.username)
-    # candidate=Candidate.objects.get(id=id)
-    # print(candidate.fullname)
-    # voting=Votes.objects.create(user=user,candidate=candidate)
-    # voting.save()
     
-    if request.method == "POST":
-        candidate = request.POST.get('candidate')
+    print("-------------in function-----------------------------------")
+    user = request.user
+    print(user.username)
+    candidate=Candidate.objects.get(id=id)
+    print(candidate.fullname)
 
+    if Votes.objects.filter(user = user).exists():
         
-        # print("***********************************hti")
-        # user_id = request.POST.get('user_id')
-        # candidate_id = request.POST.get('candidate_id')
-        # vote=Votes(user_id=user_id,candidate_id=candidate_id)
-        # vote.save()
-  
+        messages.info(request,"User is already voted! Only one times voting for users")
+        return redirect('user_view_candidate')
+
+    if request.method == "POST":
+        
+        voting=Votes.objects.create(user=user,candidate=candidate)
+        voting.save()
         return redirect(user_view_candidate)
     return render(request,"user_voting_invoice.html")
 
 
 def user_home(request):
-    return render(request,"user_home.html")
+    user = request.user
+    return render(request,"user_home.html",{"user":user})
 
 def user_view_candidate(request):
     candidates=Candidate.objects.all()
     return render(request,'user_view_candidate.html',{'candidates':candidates})
 
-# def vote(request,candidate_id):
-#     if request.user.is_authenticated:
-#         cart=Votes.objects.filter(user=request.user)
-#         count=0
-#         for i in cart:
+from django.db.models import Count
 
+def win_vote(request):
+    
+    max_votes_candidate = Candidate.objects.annotate(num_votes=Count('votes')).order_by('-num_votes').first()
 
-# def vote(request,id):
-#     candidate=Candidate.objects.get(id=id)
-#     print(candidate)
-#     # user=User.objects.get(ids=user_id)
-#     pass
+        # Pass the candidate to the template
+    context = {'max_votes_candidate': max_votes_candidate}
+    return render(request,"win_vote.html",context)
+
+    

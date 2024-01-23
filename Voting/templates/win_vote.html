@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maximum Votes Candidate</title>
+</head>
+<body>
+    <h1>Maximum Votes Candidate</h1>
+    
+    {% if max_votes_candidate %}
+        <h2>{{ max_votes_candidate.fullname }}</h2>
+        <p>Email: {{ max_votes_candidate.email }}</p>
+        <p>Phone: {{ max_votes_candidate.phone }}</p>
+        <p>Bio: {{ max_votes_candidate.bio }}</p>
+        <!-- You can display other candidate information here -->
+    {% else %}
+        <p>No candidates available</p>
+    {% endif %}
+</body>
+</html>

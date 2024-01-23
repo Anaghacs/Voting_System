@@ -6,7 +6,7 @@ from .import views
 urlpatterns = [
     path('', views.index,name="index"),
     path('signup',views.signup,name="signup"),
-    path('login',views.login,name="login"),
+    path('login',views.user_login,name="login"),
     path('signout',views.signout,name="signout"),
     path('admin_home',views.admin_home,name="admin_home"),
     path('view_users',views.view_users,name="view_users"),
@@ -17,6 +17,8 @@ urlpatterns = [
     path('delete_candidate_invoice/<int:id>/',views.delete_candidate_invoice,name="delete_candidate_invoice"),
     path('user_home',views.user_home,name="user_home"),
     path('user_view_candidate',views.user_view_candidate,name="user_view_candidate"),
-    path('vote/<int:id>/',views.vote,name="vote")
+    path('vote/<int:id>/',views.vote,name="vote"),
+    path('win_vote/',views.win_vote,name="win_vote")
+
 ]
 

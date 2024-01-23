@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index</title>
+    <title>User view candidates</title>
 </head>
 
 {% load static %}
@@ -30,16 +30,14 @@
                 <td>{{i.phone}}</td>
                 <td>{{i.bio}}</td>
                 <td>
-                    {% if not vote %}
-                        <a href="{% url 'vote' i.id %}">Vote</a>
-                    {% else %}
-                        <p>Voted</p>
-                    {% endif %}
-
+                    <a href="{% url 'vote' i.id  %}">Vote</a>
                 </td>
             </tr> 
             {% endfor %}
         </table>
+            {% for messages in messages %}
+              <p style="color: red;">{{messages}}</p>
+            {% endfor %}
     </div>
     </div>   
 </body>
