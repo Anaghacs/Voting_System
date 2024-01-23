@@ -16,6 +16,7 @@ urlpatterns = [
     path('admin_candidate_view',views.admin_candidate_view,name="admin_candidate_view"),
     path('delete_candidate_invoice/<int:id>/',views.delete_candidate_invoice,name="delete_candidate_invoice"),
     path('user_home',views.user_home,name="user_home"),
-    path('user_view_candidate',views.user_view_candidate,name="user_view_candidate")
+    path('user_view_candidate',views.user_view_candidate,name="user_view_candidate"),
+    path('vote/<int:id>/',views.vote,name="vote")
 ]
 

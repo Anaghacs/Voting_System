@@ -30,17 +30,17 @@
                 <td>{{i.phone}}</td>
                 <td>{{i.bio}}</td>
                 <td>
-                    <a href="vote/{{i.id}}">Vote</a>
-                    <!-- <a href="{% url 'vote' i.id %}">Vote</a> -->
+                    {% if not vote %}
+                        <a href="{% url 'vote' i.id %}">Vote</a>
+                    {% else %}
+                        <p>Voted</p>
+                    {% endif %}
 
                 </td>
-            </tr>
-            
-            
+            </tr> 
             {% endfor %}
         </table>
     </div>
-    </div>  
-    
+    </div>   
 </body>
 </html>

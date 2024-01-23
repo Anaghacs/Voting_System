@@ -24,8 +24,8 @@ class Candidate(models.Model):
 
 # Create voting model.
 class Votes(models.Model):
-    user_name=models.ForeignKey(User,on_delete=models.CASCADE)
-    candidate_name=models.ForeignKey(Candidate,on_delete=models.CASCADE)
-    votes=models.PositiveIntegerField(default=0)
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    candidate=models.ForeignKey(Candidate,on_delete=models.CASCADE)
+    # vote=models.PositiveIntegerField(default=0)
 
 

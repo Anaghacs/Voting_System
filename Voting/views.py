@@ -138,15 +138,6 @@ def delete_candidate_invoice(request,id):
         return redirect('admin_candidate_view')
     return render(request,"delete_candidate_invoice.html")
 
-
-def user_home(request):
-    return render(request,"user_home.html")
-
-def user_view_candidate(request):
-    candidates=Candidate.objects.all()
-    return render(request,'user_view_candidate.html',{'candidates':candidates})
-
-
 # def vote(request,candidate_id):
 #     candidate=get_object_or_404(Candidate,pk=candidate_id)
 #     if Votes.objects.filter(user=request.User,candidate=candidate).exists():
@@ -155,9 +146,48 @@ def user_view_candidate(request):
 #     vote.save()
 #     return render(request,'voting_success')
 
-def vote(request,candidate_id):
-    if request.user.is_authenticated:
-        cart=Votes.objects.filter(user=request.user)
-        count=0
-        for i in cart:
-            
+def vote(request,id):
+    user=request.user
+    candidate=Candidate.objects.all()
+    has_voted=Votes.objects.filter(user=user).exists()
+    # print("-------------in function-----------------------------------")
+    # user=User.objects.get(id=id)
+    # print(user.username)
+    # candidate=Candidate.objects.get(id=id)
+    # print(candidate.fullname)
+    # voting=Votes.objects.create(user=user,candidate=candidate)
+    # voting.save()
+    
+    if request.method == "POST":
+        candidate = request.POST.get('candidate')
+
+        
+        # print("***********************************hti")
+        # user_id = request.POST.get('user_id')
+        # candidate_id = request.POST.get('candidate_id')
+        # vote=Votes(user_id=user_id,candidate_id=candidate_id)
+        # vote.save()
+  
+        return redirect(user_view_candidate)
+    return render(request,"user_voting_invoice.html")
+
+
+def user_home(request):
+    return render(request,"user_home.html")
+
+def user_view_candidate(request):
+    candidates=Candidate.objects.all()
+    return render(request,'user_view_candidate.html',{'candidates':candidates})
+
+# def vote(request,candidate_id):
+#     if request.user.is_authenticated:
+#         cart=Votes.objects.filter(user=request.user)
+#         count=0
+#         for i in cart:
+
+
+# def vote(request,id):
+#     candidate=Candidate.objects.get(id=id)
+#     print(candidate)
+#     # user=User.objects.get(ids=user_id)
+#     pass
