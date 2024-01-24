@@ -18,7 +18,7 @@
                 <th> Email Address</th>
                 <th> Phone number</th>
                 <th> Bio</th>     
-                <!-- <th>Photo</th>            -->
+                <th>Photo</th>           
                 <th colspan="2" id="mid">Action</th>
             </thead>
             {% for i in candidates %}
@@ -28,13 +28,13 @@
                 <td>{{i.email}}</td>
                 <td>{{i.phone}}</td>
                 <td>{{i.bio}}</td>
-                <!-- <td>{{i.photo}}</td> -->
-                <td>
-                    <a href="updates/{{i.id}}"><i class="fas fa-edit"></i></a>                    
-                </td>
+                <td>{{i.photo}}</td>
                 <!-- <td>
-                    <a href="deletes/{{i.id}}"><i class="fa-solid fa-trash"></i></a>
-                </td>   -->
+                    <img src="{{i.photo.url}}" alt="">
+                </td> -->
+                <td>
+                    <a href="update/{{i.id}}"><i class="fas fa-edit"></i></a>                    
+                </td>
                 <td>
                     <a href="{% url 'delete_candidate_invoice' i.id %}"><i class="fa-solid fa-trash"></i></a>
                 </td>      

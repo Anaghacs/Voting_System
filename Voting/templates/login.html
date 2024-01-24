@@ -13,8 +13,8 @@
 
           <form class="login-form" action="" method="post">
             {% csrf_token %}
-            <input type="text" name="username" placeholder="username" required/>
-            <input type="password" name="password1" placeholder="password" required/>
+            <input type="text" name="username" placeholder="username" />
+            <input type="password" name="password1" placeholder="password" />
             <button type="submit" value="submit" >Login</button>
 
             {% for messages in messages %}

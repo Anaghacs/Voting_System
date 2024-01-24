@@ -18,7 +18,16 @@ urlpatterns = [
     path('user_home',views.user_home,name="user_home"),
     path('user_view_candidate',views.user_view_candidate,name="user_view_candidate"),
     path('vote/<int:id>/',views.vote,name="vote"),
-    path('win_vote/',views.win_vote,name="win_vote")
+    path('successfull_msg',views.successfull_msg,name="successfull_msg"),
+    path('win_vote/',views.win_vote,name="win_vote"),
+    path('update/<int:id>/',views.update,name="update"),
+    path('update/updates/<int:id>/',views.updates,name="updates")
 
 ]
+
+
+
+
+
+
 

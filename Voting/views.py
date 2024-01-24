@@ -7,6 +7,7 @@ from django.contrib.auth import logout
 from django.db.models import Count
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login as auth_login
 
 
 # Create your views here.
@@ -26,6 +27,11 @@ def signup(request):
         password=request.POST['password1']
         confirm_password=request.POST['password2']
 
+         #username , firstname ,lastname  validation.
+        if username==first_name==last_name==email==password==confirm_password=="" or username==first_name==last_name==email==password==confirm_password==" ":
+            messages.info(request,"Username or firstname and last name is not allowed space and blank space and number and numbers and special characters")
+            return redirect('signup')
+
         #if condition checking username already exist then display the error message.
         if User.objects.filter(username=username).exists():
             messages.info(request,"Uersname is already exist! Please try some other username ")
@@ -37,10 +43,6 @@ def signup(request):
             messages.info(request,"Email address already exist! Please try some other email address.")
             return redirect('signup')
         
-        #username , firstname ,lastname  validation.
-        if username==first_name==last_name== "" or username==first_name==last_name==" ":
-            messages.info(request,"Username or firstname and last name is not allowed space and blank space and number and numbers and special characters")
-            return redirect('signup')
 
         #if condition checking username already exist then display the error message.
         if password !=confirm_password:
@@ -58,7 +60,6 @@ def signup(request):
             return redirect('login')
     return render(request,'signup.html')
 
-from django.contrib.auth import login as auth_login
 
 #Create login page functions admin login and user login.
 # @never_cache
@@ -86,9 +87,8 @@ def user_login(request):
                     return redirect(user_home)
                 else:
                     messages.info(request,"Your account not approved by the admin! Please wait.")
-        
         else:
-            messages.info(request,"Invalid username or password ! Please check username or password")
+            messages.info(request,"Invalid username or password ! Please check username or password not alowed blank space.")
     return render(request,"login.html")
 
 @never_cache
@@ -143,9 +143,29 @@ def candidate_form(request):
         email=request.POST['email']
         phone=request.POST['phone']
         bio=request.POST['bio']
-        candidates=Candidate.objects.create(fullname=fullname,email=email,phone=phone,bio=bio)
+        photo=request.POST['photo']
+        candidates=Candidate.objects.create(fullname=fullname,email=email,phone=phone,bio=bio,photo=photo)
         candidates.save()   
     return render(request,'candidate_form.html')
+
+def update(request,id):
+    candidate=Candidate.objects.get(id=id)
+    return render(request,'updates.html',{'candidate':candidate})
+
+def updates(request,id):
+    fullname=request.POST['fullname']
+    email=request.POST['email']
+    phone=request.POST['phone']
+    bio=request.POST['bio']
+    photo=request.POST['photo']
+    candidate=Candidate.objects.get(id=id)
+    candidate.fullname=fullname
+    candidate.email=email
+    candidate.phone=phone
+    candidate.bio=bio
+    candidate.photo=photo
+    candidate.save()
+    return redirect("/")
 
 #Admin view candidate details
 @never_cache
@@ -166,6 +186,7 @@ def delete_candidate_invoice(request,id):
         return redirect('admin_candidate_view')
     return render(request,"delete_candidate_invoice.html")
 
+#create voting table access candidate name and user name.
 @never_cache
 @login_required
 def vote(request,id):
@@ -185,28 +206,31 @@ def vote(request,id):
     if request.method == "POST":
         voting=Votes.objects.create(user=user,candidate=candidate)
         voting.save()
-        return redirect(successfull_msg)
+        return render(request,'successfull_msg.html')
     return render(request,"user_voting_invoice.html")
 
-
+#Voting successfully completed sendby the user successfullmessage
 @never_cache
 @login_required
 def successfull_msg(request):
     return render(request,'successfull_msg.html')
 
-
+#Crete user_home view
 @never_cache
 @login_required
 def user_home(request):
     user = request.user
     return render(request,"user_home.html",{"user":user})
 
+
+#view candidate details in user
 @never_cache
 @login_required
 def user_view_candidate(request):
     candidates=Candidate.objects.all()
     return render(request,'user_view_candidate.html',{'candidates':candidates})
 
+#count the highest voting count
 @never_cache
 @login_required
 def win_vote(request):
@@ -214,11 +238,9 @@ def win_vote(request):
     max_votes_candidate = Candidate.objects.annotate(num_votes=Count('votes')).order_by('-num_votes').first()
     
     context = {'max_votes_candidate': max_votes_candidate}
-
 #     candidates_with_vote_count = Candidate.objects.annotate(vote_count=Count('votes'))
 #      for candidate in candidates_with_vote_count:
 #         print(f"{candidate.fullname} has {candidate.vote_count} votes.")
-
 #      print(candidates_with_vote_count())
     return render(request,"win_vote.html",context)
 

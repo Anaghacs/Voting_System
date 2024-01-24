@@ -24,17 +24,32 @@ ication/x-javascript"> addEventListener("load", function() { setTimeout(hideURLb
 <body>
 	<!-- main -->
 	<div class="main-w3layouts wrapper">
-		<h1>Creative SignUp Form</h1>
+		<!-- <h1>Creative SignUp Form</h1> -->
 		<div class="main-agileinfo">
 			<div class="agileits-top">
 				<form action="/signup" method="post">
                     {% csrf_token %}
-					<input class="text" type="text" name="username" placeholder="Username" required><br>
+
+					<!-- <input class="text" type="text" name="username" placeholder="Username" ><br>
                     <input class="text" type="text" name="first_name" placeholder="First Name" required><br>
                     <input class="text" type="text" name="last_name" placeholder="Last Name" required>
 					<input class="text email" type="email" name="email" placeholder="Email" required="">
 					<input class="text" type="password" name="password1" placeholder="Password" required="">
-					<input class="text w3lpass" type="password" name="password2" placeholder="Confirm Password" required="">
+					<input class="text w3lpass" type="password" name="password2" placeholder="Confirm Password" required=""> -->
+
+
+					<label class="labels">Username</label>
+					<input class="text" type="text" name="username" placeholder="Username"><br>
+					<label class="labels">First Name</label>
+                    <input class="text" type="text" name="first_name" placeholder="First Name"><br>
+					<label class="labels">Last Name</label>
+                    <input class="text" type="text" name="last_name" placeholder="Last Name" ><br>
+					<label class="labels">Email</label>
+					<input class="text email" type="email" name="email" placeholder="Email">
+					<label class="labels">Password</label>
+					<input class="text" type="password" name="password1" placeholder="Password"><br>
+					<label class="labels">Confirm Password</label>
+					<input class="text w3lpass" type="password" name="password2" placeholder="Confirm Password">
 					{% for messages in messages %}
 						<p style="color: red;">{{messages}}</p>
 					{% endfor %}

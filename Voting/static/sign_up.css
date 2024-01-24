@@ -37,6 +37,10 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
     border-collapse: collapse;
     border-spacing: 0;
   }
+  .labels{
+    color: aliceblue;
+
+  }
   .txt{
     color: aliceblue;
   }
@@ -172,7 +176,7 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
   }
   
   input.email, input.text.w3lpass {
-    margin: 2em 0;
+    margin: 0 0;
   }
   
   .text:focus, .text:valid {
@@ -219,11 +223,12 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
     border: 1px solid #76b852;
     cursor: pointer;
     padding: 0.9em;
-    -webkit-appearance: none;
+    /* -webkit-appearance: none; */
     width: 100%;
     margin: 2em 0;
     letter-spacing: 4px;
   }
+  
   
   input[type="submit"]:hover {
     -webkit-transition: .5s all;
