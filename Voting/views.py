@@ -1,9 +1,12 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from .models import Candidate,Votes
 from django.contrib.auth.models import User
-from django.contrib import messages
+from django.contrib import messages,auth
 from django.contrib.auth import authenticate
 from django.contrib.auth import logout
+from django.db.models import Count
+from django.views.decorators.cache import never_cache
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -11,6 +14,7 @@ def index(request):
     return render(request,'base.html')
 
 #The user registration or signup form for the user.
+@never_cache
 def signup(request):
 
     #The form submition field daata fetch
@@ -56,10 +60,9 @@ def signup(request):
 
 from django.contrib.auth import login as auth_login
 
-#Create login page functions.
+#Create login page functions admin login and user login.
+# @never_cache
 def user_login(request):
-    # if 'username' in request.session:
-    #     return redirect(index)
     
     if request.method=="POST":
         username=request.POST['username']
@@ -71,15 +74,14 @@ def user_login(request):
         # if user := authenticate(username=username,password=password):
         if user is not None:
             auth_login(request, user)
-
-
-            request.session['username']=username
-
+            
             if user.is_superuser:
-                # print("--------------------------------------------")
+            # print("--------------------------------------------")
+                request.session['username']=username
                 return redirect(admin_home)
             
             else:
+                
                 if user.is_staff==True:
                     return redirect(user_home)
                 else:
@@ -89,6 +91,8 @@ def user_login(request):
             messages.info(request,"Invalid username or password ! Please check username or password")
     return render(request,"login.html")
 
+@never_cache
+@login_required
 def signout(request):
     logout(request)
     # if 'username' in request.session:
@@ -97,28 +101,41 @@ def signout(request):
 
 
 #Create admin home page functions.
+@never_cache
+@login_required
 def admin_home(request):
     if 'username' in request.session:
         return render(request,'admin_home.html')
     return render(request,"login.html")
 
 #Create admin view user details and approve button
+@never_cache
+@login_required
 def view_users(request):
     user=User.objects.filter(is_staff=False)
     return render(request,"view_users.html",{'user':user})
 
 
 #Create admin approve login request for the users.
+@never_cache
+@login_required
 def approve(request,id):
     user=User.objects.get(id=id)
     user.is_staff=True
     user.save()
     return redirect("verified_users")
 
+#Crete admin approved users details.
+@never_cache
+@login_required
 def verified_users(request):
     user=User.objects.filter(is_staff=True,is_superuser=False)
     return render(request,"verified_users.html",{'user':user})
 
+
+#Admin create candidate details add.
+@never_cache
+@login_required
 def candidate_form(request):
 
     if request.method=="POST":
@@ -130,11 +147,16 @@ def candidate_form(request):
         candidates.save()   
     return render(request,'candidate_form.html')
 
-
+#Admin view candidate details
+@never_cache
+@login_required
 def admin_candidate_view(request):
     candidates=Candidate.objects.all()
     return render(request,'admin_candidate_view.html',{'candidates':candidates})
 
+#admin delete candidate details using and create confirmation box.
+@never_cache
+@login_required
 def delete_candidate_invoice(request,id):
     candidate=Candidate.objects.get(id=id)
 
@@ -144,7 +166,8 @@ def delete_candidate_invoice(request,id):
         return redirect('admin_candidate_view')
     return render(request,"delete_candidate_invoice.html")
 
-
+@never_cache
+@login_required
 def vote(request,id):
     
     print("-------------in function-----------------------------------")
@@ -153,35 +176,50 @@ def vote(request,id):
     candidate=Candidate.objects.get(id=id)
     print(candidate.fullname)
 
+    #check user is already voted or not.voted then print the msg. 
     if Votes.objects.filter(user = user).exists():
-        
         messages.info(request,"User is already voted! Only one times voting for users")
         return redirect('user_view_candidate')
-
+    
+    #else vote the user for specific candidate 
     if request.method == "POST":
-        
         voting=Votes.objects.create(user=user,candidate=candidate)
         voting.save()
-        return redirect(user_view_candidate)
+        return redirect(successfull_msg)
     return render(request,"user_voting_invoice.html")
 
 
+@never_cache
+@login_required
+def successfull_msg(request):
+    return render(request,'successfull_msg.html')
+
+
+@never_cache
+@login_required
 def user_home(request):
     user = request.user
     return render(request,"user_home.html",{"user":user})
 
+@never_cache
+@login_required
 def user_view_candidate(request):
     candidates=Candidate.objects.all()
     return render(request,'user_view_candidate.html',{'candidates':candidates})
 
-from django.db.models import Count
-
+@never_cache
+@login_required
 def win_vote(request):
     
     max_votes_candidate = Candidate.objects.annotate(num_votes=Count('votes')).order_by('-num_votes').first()
-
-        # Pass the candidate to the template
+    
     context = {'max_votes_candidate': max_votes_candidate}
+
+#     candidates_with_vote_count = Candidate.objects.annotate(vote_count=Count('votes'))
+#      for candidate in candidates_with_vote_count:
+#         print(f"{candidate.fullname} has {candidate.vote_count} votes.")
+
+#      print(candidates_with_vote_count())
     return render(request,"win_vote.html",context)
 
     
