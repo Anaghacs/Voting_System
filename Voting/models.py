@@ -10,7 +10,7 @@ class Candidate(models.Model):
     email=models.EmailField(max_length=20)
     phone=models.CharField(max_length=12)
     bio=models.TextField()
-    photo=models.ImageField(upload_to='candidate',blank=True)
+    photo=models.ImageField(upload_to='media',blank=True)
 
     #display fullname
     def __str__(self):

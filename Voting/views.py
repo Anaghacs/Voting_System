@@ -17,6 +17,7 @@ def index(request):
 #The user registration or signup form for the user.
 @never_cache
 def signup(request):
+    
 
     #The form submition field daata fetch
     if request.method == "POST":
