@@ -144,9 +144,15 @@ def candidate_form(request):
         email=request.POST['email']
         phone=request.POST['phone']
         bio=request.POST['bio']
-        photo=request.POST['photo']
+        # photo=request.POST['photo']
+        # print("=======================================",photo)
+        photo = request.FILES.get('photo')
+        print("=======================================",photo)
+
+
         candidates=Candidate.objects.create(fullname=fullname,email=email,phone=phone,bio=bio,photo=photo)
-        candidates.save()   
+        candidates.save() 
+        return redirect('admin_candidate_view')  
     return render(request,'candidate_form.html')
 
 def update(request,id):

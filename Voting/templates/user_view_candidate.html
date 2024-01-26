@@ -17,9 +17,10 @@
                 <th> Full Name</th>
                 <th> Email Address</th>
                 <th> Phone number</th>
-                <th> Bio</th>   
+                <th> Bio</th> 
+                <th>Photo</th>           
+  
                 <th>Vote</th>  
-                <!-- <th>Photo</th>            -->
                 <!-- <th colspan="2" id="mid">Action</th> -->
             </thead>
             {% for i in candidates %}
@@ -29,6 +30,9 @@
                 <td>{{i.email}}</td>
                 <td>{{i.phone}}</td>
                 <td>{{i.bio}}</td>
+                <td>
+                    <img src="{{i.photo.url}}" alt="candidate_photo" style="height:49px; width:49px;">
+                </td>
                 <td>
                     <a href="{% url 'vote' i.id  %}">Vote</a>
                 </td>
